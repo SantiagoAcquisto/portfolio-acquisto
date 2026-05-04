@@ -182,6 +182,16 @@ function useParticles(canvasRef) {
   }, []);
 }
 
+function useWindowWidth() {
+  const [w, setW] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+  useEffect(() => {
+    const handler = () => setW(window.innerWidth);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return w;
+}
+
 function Tag({ children }) {
   return <span style={{ display:"inline-block", padding:"3px 10px", borderRadius:"4px", fontSize:"12px", fontFamily:"'JetBrains Mono',monospace", background:"rgba(120,180,255,0.12)", color:"#7eb8ff", border:"1px solid rgba(120,180,255,0.25)", marginRight:"6px", marginBottom:"6px" }}>{children}</span>;
 }
@@ -254,6 +264,8 @@ export default function Portfolio() {
   const canvasRef = useRef(null);
   const [active, setActive] = useState("inicio");
   const [lang, setLang] = useState("es");
+  const [menuOpen, setMenuOpen] = useState(false);
+  const isMobile = useWindowWidth() < 768;
   const t = T[lang];
   useParticles(canvasRef);
 
@@ -275,13 +287,13 @@ export default function Portfolio() {
     display:"flex",
     flexDirection:"column",
     justifyContent:"center",
-    padding:"6rem clamp(1.5rem,6vw,8rem)",
+    padding:"clamp(4rem,8vh,6rem) clamp(1.5rem,6vw,8rem)",
     position:"relative",
     zIndex:1,
   };
 
   return (
-    <div style={{ fontFamily:"'Inter',sans-serif", background:"#060a18", color:"#c8d7ff", minHeight:"100vh" }}>
+    <div style={{ fontFamily:"'Inter',sans-serif", background:"#060a18", color:"#c8d7ff", minHeight:"100vh", position:"relative" }}>
 
       {/* Google Fonts */}
       <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -294,40 +306,76 @@ export default function Portfolio() {
       {/* Nav */}
       <nav style={{
         position:"fixed", top:0, left:0, right:0, zIndex:100,
-        display:"flex", alignItems:"center", justifyContent:"space-between",
-        padding:"1rem clamp(1.5rem,6vw,8rem)",
         background:"rgba(6,10,24,0.7)",
         backdropFilter:"blur(16px)",
         borderBottom:"1px solid rgba(74,158,255,0.1)",
       }}>
-        <div style={{ display:"flex", alignItems:"center", gap:"1rem" }}>
-          <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:"1.1rem", color:"#eef2ff", letterSpacing:"-0.02em" }}>
-            SA<span style={{ color:"#4a9eff" }}>.</span>dev
-          </div>
-          <button onClick={() => setLang(l => l==="es" ? "en" : "es")} style={{
-            background:"rgba(74,158,255,0.1)",
-            border:"1px solid rgba(74,158,255,0.3)",
-            borderRadius:"6px",
-            cursor:"pointer",
-            fontSize:"12px",
-            fontFamily:"'JetBrains Mono',monospace",
-            color:"#4a9eff",
-            padding:"4px 10px",
-            transition:"all 0.2s",
-          }}>{lang === "es" ? "EN" : "ES"}</button>
-        </div>
-        <div style={{ display:"flex", gap:"clamp(0.8rem,2vw,2rem)", alignItems:"center" }}>
-          {SECTIONS.map((id, i) => (
-            <button key={id} onClick={() => scrollTo(id)} style={{
-              background:"none", border:"none", cursor:"pointer",
-              fontSize:"13px", fontFamily:"'JetBrains Mono',monospace",
-              color: active===id ? "#4a9eff" : "rgba(200,215,255,0.5)",
-              padding:"4px 0",
-              borderBottom: active===id ? "1px solid #4a9eff" : "1px solid transparent",
+        <div style={{
+          display:"flex", alignItems:"center", justifyContent:"space-between",
+          padding:"1rem clamp(1.5rem,6vw,8rem)",
+        }}>
+          <div style={{ display:"flex", alignItems:"center", gap:"1rem" }}>
+            <div style={{ fontFamily:"'Syne',sans-serif", fontWeight:800, fontSize:"1.1rem", color:"#eef2ff", letterSpacing:"-0.02em" }}>
+              SA<span style={{ color:"#4a9eff" }}>.</span>dev
+            </div>
+            <button onClick={() => setLang(l => l==="es" ? "en" : "es")} style={{
+              background:"rgba(74,158,255,0.1)",
+              border:"1px solid rgba(74,158,255,0.3)",
+              borderRadius:"6px",
+              cursor:"pointer",
+              fontSize:"12px",
+              fontFamily:"'JetBrains Mono',monospace",
+              color:"#4a9eff",
+              padding:"4px 10px",
               transition:"all 0.2s",
-            }}>{t.nav[i]}</button>
-          ))}
+            }}>{lang === "es" ? "EN" : "ES"}</button>
+          </div>
+          {isMobile ? (
+            <button
+              onClick={() => setMenuOpen(o => !o)}
+              style={{
+                background:"none", border:"none", cursor:"pointer",
+                fontSize:"22px", color:"rgba(200,215,255,0.8)",
+                lineHeight:1, padding:"4px 8px",
+              }}
+            >
+              {menuOpen ? "✕" : "☰"}
+            </button>
+          ) : (
+            <div style={{ display:"flex", gap:"clamp(0.8rem,2vw,2rem)", alignItems:"center" }}>
+              {SECTIONS.map((id, i) => (
+                <button key={id} onClick={() => scrollTo(id)} style={{
+                  background:"none", border:"none", cursor:"pointer",
+                  fontSize:"13px", fontFamily:"'JetBrains Mono',monospace",
+                  color: active===id ? "#4a9eff" : "rgba(200,215,255,0.5)",
+                  padding:"4px 0",
+                  borderBottom: active===id ? "1px solid #4a9eff" : "1px solid transparent",
+                  transition:"all 0.2s",
+                }}>{t.nav[i]}</button>
+              ))}
+            </div>
+          )}
         </div>
+        {isMobile && menuOpen && (
+          <div style={{
+            display:"flex", flexDirection:"column",
+            padding:"0.5rem clamp(1.5rem,6vw,8rem) 1rem",
+            borderTop:"1px solid rgba(74,158,255,0.1)",
+            gap:"0",
+          }}>
+            {SECTIONS.map((id, i) => (
+              <button key={id} onClick={() => { scrollTo(id); setMenuOpen(false); }} style={{
+                background:"none", border:"none", cursor:"pointer",
+                fontSize:"14px", fontFamily:"'JetBrains Mono',monospace",
+                color: active===id ? "#4a9eff" : "rgba(200,215,255,0.7)",
+                padding:"0.6rem 0",
+                textAlign:"left",
+                borderBottom:"1px solid rgba(74,158,255,0.07)",
+                transition:"color 0.2s",
+              }}>{t.nav[i]}</button>
+            ))}
+          </div>
+        )}
       </nav>
 
       {/* HERO */}
@@ -1028,7 +1076,7 @@ function ChatFlotante() {
       {/* Panel de chat */}
       {abierto && (
         <div style={{
-          width:"340px", background:"rgba(6,10,24,0.97)",
+          width:"min(340px, calc(100vw - 2rem))", background:"rgba(6,10,24,0.97)",
           border:"1px solid rgba(74,158,255,0.25)", borderRadius:"16px",
           overflow:"hidden", boxShadow:"0 8px 40px rgba(74,158,255,0.15)",
           animation:"slideUp 0.3s ease",
