@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
-const SECTIONS = ["inicio", "proyecto", "base-de-datos", "automatizaciones", "plantillas", "panel-admin", "infraestructura", "contacto"];
+const SECTIONS = ["inicio", "proyecto", "base-de-datos", "automatizaciones", "plantillas", "panel-admin", "infraestructura", "herramientas", "contacto"];
 
 const T = {
   es: {
-    nav: ["Inicio","Proyecto","BD","Auto","Plantillas","Admin","Infra","Contacto"],
+    nav: ["Inicio","Proyecto","BD","Auto","Plantillas","Admin","Infra","Apps","Contacto"],
     tagline: "> full stack developer · automatizaciones con Claude AI",
     heroDesc: "Construí un e-commerce completo para una librería real — desde el schema SQL hasta los mensajes automáticos de WhatsApp. Todo en producción.",
     heroBtnProj: "Ver el proyecto",
@@ -38,12 +38,14 @@ const T = {
     deployTitle: "Deploy en un comando",
     composeTitle: "docker-compose.yml",
     ctaTitle: "¿Querés ver el código?",
+    s06label: "06 — Apps de aprendizaje", s06title: "Herramientas & Simuladores",
+    s06desc: "Apps standalone construidas para estudiar, practicar y prepararse para entrevistas técnicas.",
     ctaDesc: "Todo el proyecto está en GitHub, con documentación TP01–TP07 que explica cada decisión técnica.",
     ctaBtnLive: "Ver sitio en vivo →",
     ctaBtnGH: "Ver en GitHub →",
   },
   en: {
-    nav: ["Home","Project","DB","Auto","Templates","Admin","Infra","Contact"],
+    nav: ["Home","Project","DB","Auto","Templates","Admin","Infra","Apps","Contact"],
     tagline: "> full stack developer · automations with Claude AI",
     heroDesc: "Built a complete e-commerce for a real stationery store — from the SQL schema to automatic WhatsApp messages. Everything in production.",
     heroBtnProj: "See the project",
@@ -77,6 +79,8 @@ const T = {
     deployTitle: "Deploy in one command",
     composeTitle: "docker-compose.yml",
     ctaTitle: "Want to see the code?",
+    s06label: "06 — Learning Apps", s06title: "Tools & Simulators",
+    s06desc: "Standalone apps built to study, practice, and prepare for technical interviews.",
     ctaDesc: "The full project is on GitHub, with TP01–TP07 documentation explaining every technical decision.",
     ctaBtnLive: "See live site →",
     ctaBtnGH: "View on GitHub →",
@@ -669,10 +673,107 @@ export default function Portfolio() {
         </div>
       </section>
 
+      {/* HERRAMIENTAS */}
+      <section id="herramientas" style={{ ...sectionStyle, background:"rgba(8,12,28,0.98)" }}>
+        <div style={{ maxWidth:"960px", margin:"0 auto", width:"100%" }}>
+          <SectionTitle label={t.s06label} title={t.s06title} />
+          <p style={{ color:"rgba(200,215,255,0.6)", fontSize:"15px", lineHeight:1.7, marginBottom:"2.5rem" }}>
+            {t.s06desc}
+          </p>
+          <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill,minmax(300px,1fr))", gap:"1.5rem" }}>
+            <div style={{
+              background:"rgba(15,20,40,0.8)",
+              border:"1px solid rgba(124,109,250,0.25)",
+              borderRadius:"16px",
+              padding:"1.75rem",
+              backdropFilter:"blur(8px)",
+              display:"flex",
+              flexDirection:"column",
+              gap:"1rem",
+              transition:"border-color 0.3s, transform 0.2s",
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor="rgba(124,109,250,0.55)"; e.currentTarget.style.transform="translateY(-3px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor="rgba(124,109,250,0.25)"; e.currentTarget.style.transform="none"; }}
+            >
+              <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:"12px" }}>
+                <div style={{ fontSize:"36px" }}>🧠</div>
+                <span style={{
+                  fontSize:"10px", padding:"3px 10px", borderRadius:"20px",
+                  background:"rgba(109,250,189,0.1)", color:"#6dfabd",
+                  border:"1px solid rgba(109,250,189,0.25)",
+                  fontFamily:"'JetBrains Mono',monospace", letterSpacing:"1px",
+                  whiteSpace:"nowrap",
+                }}>STANDALONE · HTML</span>
+              </div>
+              <div>
+                <div style={{ fontSize:"17px", fontWeight:700, color:"#eef2ff", fontFamily:"'Syne',sans-serif", marginBottom:"6px" }}>
+                  AI Engineer — Prueba Técnica
+                </div>
+                <div style={{ fontSize:"13px", color:"rgba(200,215,255,0.6)", lineHeight:1.65 }}>
+                  100 preguntas técnicas para preparar entrevistas de AI Engineer. Organizadas en niveles JR / SSR / SR con respuestas, autoevaluación y progreso guardado en localStorage.
+                </div>
+              </div>
+              <div style={{ display:"flex", flexWrap:"wrap", gap:"5px" }}>
+                {["100 preguntas","JR / SSR / SR","localStorage","Vanilla JS","Sin dependencias"].map(tag => (
+                  <span key={tag} style={{
+                    fontSize:"10px", padding:"2px 9px", borderRadius:"4px",
+                    background:"rgba(124,109,250,0.1)", color:"#a78bfa",
+                    border:"1px solid rgba(124,109,250,0.2)",
+                    fontFamily:"'JetBrains Mono',monospace",
+                  }}>{tag}</span>
+                ))}
+              </div>
+              <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:"8px", paddingTop:"4px" }}>
+                {[["33","JR","#6dfabd"],["34","SSR","#7c6dfa"],["33","SR","#fa6d8e"]].map(([n,lbl,c]) => (
+                  <div key={lbl} style={{ background:"rgba(0,0,0,0.3)", borderRadius:"8px", padding:"8px", textAlign:"center" }}>
+                    <div style={{ fontSize:"1.3rem", fontFamily:"'Syne',sans-serif", fontWeight:800, color:c }}>{n}</div>
+                    <div style={{ fontSize:"10px", color:"rgba(200,215,255,0.4)", fontFamily:"'JetBrains Mono',monospace" }}>{lbl}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display:"flex", gap:"8px", paddingTop:"4px" }}>
+                <a
+                  href="https://SantiagoAcquisto.github.io/ai-engineer-quiz"
+                  target="_blank" rel="noopener"
+                  style={{
+                    flex:1, padding:"9px 0", textAlign:"center",
+                    background:"rgba(124,109,250,0.15)", color:"#a78bfa",
+                    border:"1px solid rgba(124,109,250,0.35)",
+                    borderRadius:"8px", textDecoration:"none",
+                    fontFamily:"'JetBrains Mono',monospace", fontSize:"12px", fontWeight:600,
+                    transition:"background 0.2s",
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background="rgba(124,109,250,0.28)"}
+                  onMouseLeave={e => e.currentTarget.style.background="rgba(124,109,250,0.15)"}
+                >
+                  Abrir app →
+                </a>
+                <a
+                  href="https://github.com/SantiagoAcquisto/ai-engineer-quiz"
+                  target="_blank" rel="noopener"
+                  style={{
+                    flex:1, padding:"9px 0", textAlign:"center",
+                    background:"transparent", color:"rgba(200,215,255,0.5)",
+                    border:"1px solid rgba(74,158,255,0.2)",
+                    borderRadius:"8px", textDecoration:"none",
+                    fontFamily:"'JetBrains Mono',monospace", fontSize:"12px",
+                    transition:"border-color 0.2s, color 0.2s",
+                  }}
+                  onMouseEnter={e => { e.currentTarget.style.borderColor="rgba(74,158,255,0.5)"; e.currentTarget.style.color="#eef2ff"; }}
+                  onMouseLeave={e => { e.currentTarget.style.borderColor="rgba(74,158,255,0.2)"; e.currentTarget.style.color="rgba(200,215,255,0.5)"; }}
+                >
+                  GitHub →
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CONTACTO */}
       <section id="contacto" style={{ ...sectionStyle, background:"rgba(6,10,24,0.98)", minHeight:"auto", padding:"5rem clamp(1.5rem,6vw,8rem)" }}>
         <div style={{ maxWidth:"600px", margin:"0 auto", width:"100%" }}>
-          <SectionTitle label="07 — Contacto" title="Hablemos" />
+          <SectionTitle label="08 — Contacto" title="Hablemos" />
           <p style={{ color:"rgba(200,215,255,0.6)", fontSize:"15px", lineHeight:1.7, marginBottom:"2rem" }}>
             Tu mensaje llega directo a mi WhatsApp vía SAXI. Respondó en menos de 24hs.
           </p>
