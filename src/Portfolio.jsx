@@ -722,7 +722,7 @@ export default function Portfolio() {
       </section>
 
       {/* HERRAMIENTAS */}
-      <section id="herramientas" style={{ ...sectionStyle, background:"rgba(8,12,28,0.98)" }}>
+      <section id="herramientas" style={{ ...sectionStyle, background:"rgba(8,12,28,0.98)", minHeight:"auto", paddingBottom:"80px" }}>
         <div style={{ maxWidth:"960px", margin:"0 auto", width:"100%" }}>
           <SectionTitle label={t.s06label} title={t.s06title} />
           <p style={{ color:"rgba(200,215,255,0.6)", fontSize:"15px", lineHeight:1.7, marginBottom:"2.5rem" }}>
