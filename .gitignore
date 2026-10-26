@@ -13,6 +13,8 @@ dist-ssr
 *.local
 
 deploy_portfolio.py
+.env
+.env.deploy
 
 # Editor directories and files
 .vscode/*
